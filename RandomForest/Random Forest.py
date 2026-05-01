@@ -84,7 +84,7 @@ forest = RandomForestClassifier(n_estimators=250, max_depth=35, min_samples_leaf
 #fit the forest with the combined data
 forest.fit(combined_X, combined_Y)
 #test the forest with mnist data
-print(f"\tThe accuracy of forest on MNIST data: {accuracy_score(mnistY_test, forest.predict(mnistX_test)):.2f}")
+print(f"\tThe accuracy of forest on MNIST data: {accuracy_score(mnistY_test, forest.predict(mnistX_test)):.2f}\n")
 #validate (test) using the hand drawn images
 y_pred_forest = forest.predict(customX_test)
 #compare the labels of the images
