@@ -90,8 +90,7 @@ print(f"\tThe accuracy of forest on MNIST data: {accuracy_score(mnistY_test, for
 y_pred_forest = forest.predict(customX_test)
 #compare the labels of the images
 acc_forest = accuracy_score(customY_test, y_pred_forest)
-#just print the accuracy
-print(f'\tThe accuracy of the forest for hand drawn images: {acc_forest:.2f}\n')
+
 
 #uses testing data to validate, dedided to use quite a few print statements to keep track of what is going on
 #only used to show the output, helps to see what numbers are being predicted wrong
