@@ -17,17 +17,14 @@ from scipy.ndimage import shift as nd_shift
 def preprocess_img(img):
     #convert to grayscale and make an array
     arr = np.array(img.convert("L"))
-    #find rows and columns that contain a non black pixel
-    rows, cols = np.where(arr>15)
-    #crop the array to the bounding box of the digit
-    arr = arr[rows.min():rows.max()+1, cols.min():cols.max()+1]
-    #We can then resize the images using LANCZOS
-    arr = np.array(Image.fromarray(arr).resize((20,20), Image.LANCZOS))
+    #We can then resize the images using
+    arr = np.array(Image.fromarray(arr).resize((20,20)))
     #create a blank canvas for the image, needs to be 28x28
     cvs = np.zeros((28,28))
     #place the digits in the center and leave 4 px worth of padding to match the dataset requirements
     cvs[4:24, 4:24] = arr
     #find the weight and where it sits on the canvas
+    #not entirley sure if my centering is happening, when the code below to return canvas was added it increased accuracy by 20%
     centY, centX = center_of_mass(cvs)
     #ensures center is row 14 for y this would be the middle of 28
     moveY = int(round(14 - centY))
@@ -74,7 +71,7 @@ custom_Y = np.array(custom_Y)
 print(f"Hand drawn images loaded: {len(custom_X)}, labels loaded: {len(custom_Y)}")
 
 #train test split
-customX_train, customX_test, customY_train, customY_test = train_test_split(custom_X, custom_Y, test_size=.90, random_state=42)
+customX_train, customX_test, customY_train, customY_test = train_test_split(custom_X, custom_Y, test_size=.30, random_state=42)
 #combine with mnist data by stacking
 combined_X = np.vstack([mnistX_train, customX_train])
 #matches the labels in the same order they were stacked
