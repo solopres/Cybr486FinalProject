@@ -68,7 +68,7 @@ for filename in os.listdir(folder):
 custom_X = np.array(custom_X)
 custom_Y = np.array(custom_Y)
 #check to ensure all images and their labels are loaded properly
-print(f"Hand drawn images loaded: {len(custom_X)}, labels loaded: {len(custom_Y)}")
+print(f"\n\tHand drawn images loaded: {len(custom_X)}\n\tlabels loaded: {len(custom_Y)}")
 
 #train test split
 customX_train, customX_test, customY_train, customY_test = train_test_split(custom_X, custom_Y, test_size=.30, random_state=42)
@@ -77,7 +77,7 @@ combined_X = np.vstack([mnistX_train, customX_train])
 #matches the labels in the same order they were stacked
 combined_Y = np.concatenate([mnistY_train, customY_train])
 #With us having more hand drawn images I ended up mainly using all of those for testing since that is what will be done for the actual grade
-print(f"all samples after combining the two: {len(combined_X)}")
+print(f"\tTotal samples after combining the two: {len(combined_X)}")
 
 
 #training the froest
@@ -85,15 +85,16 @@ forest = RandomForestClassifier(n_estimators=250, max_depth=35, min_samples_leaf
 #fit the forest with the combined data
 forest.fit(combined_X, combined_Y)
 #test the forest with mnist data
-print(f"accuracy of forest on MNIST data: {accuracy_score(mnistY_test, forest.predict(mnistX_test)):.2f}")
+print(f"\tThe accuracy of forest on MNIST data: {accuracy_score(mnistY_test, forest.predict(mnistX_test)):.2f}")
 #validate (test) using the hand drawn images
 y_pred_forest = forest.predict(customX_test)
 #compare the labels of the images
 acc_forest = accuracy_score(customY_test, y_pred_forest)
 #just print the accuracy
-print(f'The accuracy of the forest is {acc_forest:.2f}')
+print(f'\tThe accuracy of the forest for hand drawn images: {acc_forest:.2f}\n')
 
 #uses testing data to validate, dedided to use quite a few print statements to keep track of what is going on
+#only used to show the output, helps to see what numbers are being predicted wrong
 correct = 0
 total = 0
 #loop through each test image
@@ -110,8 +111,5 @@ for i in range(len(customX_test)):
     if forest_pred == actual_label:
         correct += 1
     total += 1
-if total > 0:
-    #outputs the accuracy
-    print(f"Accuracy on images we made: {correct/total:.2f}")
-else:
-    print("No image files found")
+#second printout for testing accuracy
+print(f"\n\tAccuracy on images we made: {correct/total:.2f}")
