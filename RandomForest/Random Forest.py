@@ -23,8 +23,7 @@ def preprocess_img(img):
     cvs = np.zeros((28,28))
     #place the digits in the center and leave 4 px worth of padding to match the dataset requirements
     cvs[4:24, 4:24] = arr
-    #find the weight and where it sits on the canvas
-    #not entirley sure if my centering is happening, when the code below to return canvas was added it increased accuracy by 20%
+    #not entirley sure if my centering is happening, when the code below - return cvs was added it increased accuracy by 20%
     centY, centX = center_of_mass(cvs)
     #ensures center is row 14 for y this would be the middle of 28
     moveY = int(round(14 - centY))
